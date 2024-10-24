@@ -1,0 +1,48 @@
+@import '../abstract/colors';
+
+.searchbar {
+    display: flex;
+    width: 100%;
+    height: 4rem;
+    background: $white;
+    border-radius: 11px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0.5rem 1rem 2rem;
+
+    &__input {
+        width: 90%;
+        height: 100%;
+        border: transparent;
+        border-radius: 11px 0 0 11px;
+    }
+
+    &__input:focus {
+        outline: transparent;
+    }
+
+    &__button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        border-radius: 10px;
+        border: transparent;
+        background: $black;
+        color: $white;
+        align-self: center;
+        cursor: pointer;
+    }
+
+    &__button:hover {
+        background: $yellow;
+        color: $black;
+        transition: ease-out 300ms;
+    }
+
+    &__cancel-button {
+        color: $grey;
+        cursor: pointer;
+        display: none;
+    }
+}

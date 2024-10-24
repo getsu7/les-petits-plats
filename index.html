@@ -7,35 +7,365 @@
             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
         />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Les petits plats</title>
+        <script src="https://kit.fontawesome.com/a12ba4674f.js" crossorigin="anonymous"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
         <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@200..800&display=swap"
+            rel="stylesheet"
+        />
+        <link
             rel="stylesheet"
             integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
             crossorigin="anonymous"
         />
-        <link rel="stylesheet" href="./styles/main.css" />
-        <title>Les petits plats</title>
+        <link rel="stylesheet" href="./build/styles.css" />
     </head>
     <body>
         <header>
             <nav>
-                <img class="header__logo" src="./assets/logo/logo.png" alt="logo les bons petits plats" />
+                <img
+                    loading="lazy"
+                    class="logo"
+                    src="./assets/logo/logo.png"
+                    alt="logo les bons petits plats"
+                    tabindex="0"
+                />
             </nav>
             <section class="hero-section">
                 <h1 class="hero-section__title">
                     CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN,SIMPLES ET DÉLICIEUSES
                 </h1>
+                <div class="searchbar">
+                    <input
+                        type="text"
+                        class="searchbar__input"
+                        placeholder="Rechercher une recette, un ingrédient, ..."
+                        aria-label="searchbar"
+                        aria-describedby="searchbar__loop"
+                    />
+                    <span class="searchbar__cancel-button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </span>
+                    <span class="searchbar__button" aria-label="searchbar button">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                </div>
             </section>
         </header>
-        <main></main>
+        <main>
+            <div class="filters">
+                <div id="ingredient-filter" class="select-menu">
+                    <div class="select-menu__btn" tabindex="0">
+                        <span class="select-btn__btn-text">Ingrédients</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="select-menu__searchbar-wrapper">
+                        <div class="select-menu__searchbar">
+                            <input
+                                type="text"
+                                class="select-menu__searchbar-input"
+                                aria-label="searchbar for ingredients"
+                            />
+                            <span class="select-menu__searchbar-cancel">
+                                <i class="fa-solid fa-xmark"></i>
+                            </span>
+                            <span type="button" class="select-menu__searchbar-find" aria-label="searchbar button">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <ul class="select-menu__options">
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                    </ul>
+                </div>
+                <div id="equipment-filter" class="select-menu">
+                    <div class="select-menu__btn" tabindex="0">
+                        <span class="select-btn__btn-text">Appareils</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="select-menu__searchbar-wrapper">
+                        <div class="select-menu__searchbar">
+                            <input
+                                type="text"
+                                class="select-menu__searchbar-input"
+                                aria-label="searchbar for ingredients"
+                            />
+                            <span class="select-menu__searchbar-cancel">
+                                <i class="fa-solid fa-xmark"></i>
+                            </span>
+                            <span type="button" class="select-menu__searchbar-find" aria-label="searchbar button">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <ul class="select-menu__options">
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                    </ul>
+                </div>
+                <div id="utensil-filter" class="select-menu">
+                    <div class="select-menu__btn" tabindex="0">
+                        <span class="select-btn__btn-text">Ustensiles</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="select-menu__searchbar-wrapper">
+                        <div class="select-menu__searchbar">
+                            <input
+                                type="text"
+                                class="select-menu__searchbar-input"
+                                aria-label="searchbar for ingredients"
+                            />
+                            <span class="select-menu__searchbar-cancel">
+                                <i class="fa-solid fa-xmark"></i>
+                            </span>
+                            <span type="button" class="select-menu__searchbar-find" aria-label="searchbar button">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <ul class="select-menu__options">
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                        <li class="select-menu__option"><span class="select-menu__text">Riz</span></li>
+                    </ul>
+                </div>
+                <span class="filters__nbReceipe">1500 recettes</span>
+            </div>
+            <section class="receipes">
+                <article class="receipe-card">
+                    <i class="receipe-card__tag">10min</i>
+                    <img loading="lazy" src="./assets/image/recipe/Recette01.jpg" alt="nom recette" />
+                    <h2 class="receipe-card__title">Limonade de coco</h2>
+                    <p>RECETTE</p>
+                    <p class="receipe-card__desc">
+                        Mettre les glaçons à votre goût dans le blender, Ajouter le lait la crème de coco, le jus de 2
+                        citrons et le sucre ensemble. Mixer jusqu'à obtenir la consistance désirée.
+                    </p>
+                    <p>INGREDIENTS</p>
+                    <ul class="receipe-card__ingredients">
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                    </ul>
+                </article>
+                <article class="receipe-card">
+                    <i class="receipe-card__tag">10min</i>
+                    <img loading="lazy" src="./assets/image/recipe/Recette08.jpg" alt="nom recette" />
+                    <h2 class="receipe-card__title">Limonade de coco</h2>
+                    <p>RECETTE</p>
+                    <p class="receipe-card__desc">
+                        Mettre les glaçons à votre goût dans le blender, Ajouter le lait la crème de coco, le jus de 2
+                        citrons et le sucre ensemble. Mixer jusqu'à obtenir la consistance désirée.
+                    </p>
+                    <p>INGREDIENTS</p>
+                    <ul class="receipe-card__ingredients">
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                    </ul>
+                </article>
+                <article class="receipe-card">
+                    <i class="receipe-card__tag">10min</i>
+                    <img loading="lazy" src="./assets/image/recipe/Recette06.jpg" alt="nom recette" />
+                    <h2 class="receipe-card__title">Limonade de coco</h2>
+                    <p>RECETTE</p>
+                    <p class="receipe-card__desc">
+                        Mettre les glaçons à votre goût dans le blender, Ajouter le lait la crème de coco, le jus de 2
+                        citrons et le sucre ensemble. Mixer jusqu'à obtenir la consistance désirée.
+                    </p>
+                    <p>INGREDIENTS</p>
+                    <ul class="receipe-card__ingredients">
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                    </ul>
+                </article>
+                <article class="receipe-card">
+                    <i class="receipe-card__tag">10min</i>
+                    <img loading="lazy" src="./assets/image/recipe/Recette04.jpg" alt="nom recette" />
+                    <h2 class="receipe-card__title">Limonade de coco</h2>
+                    <p>RECETTE</p>
+                    <p class="receipe-card__desc">
+                        Mettre les glaçons à votre goût dans le blender, Ajouter le lait la crème de coco, le jus de 2
+                        citrons et le sucre ensemble. Mixer jusqu'à obtenir la consistance désirée.
+                    </p>
+                    <p>INGREDIENTS</p>
+                    <ul class="receipe-card__ingredients">
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                    </ul>
+                </article>
+                <article class="receipe-card">
+                    <i class="receipe-card__tag">10min</i>
+                    <img loading="lazy" src="./assets/image/recipe/Recette02.jpg" alt="nom recette" />
+                    <h2 class="receipe-card__title">Limonade de coco</h2>
+                    <p>RECETTE</p>
+                    <p class="receipe-card__desc">
+                        Mettre les glaçons à votre goût dans le blender, Ajouter le lait la crème de coco, le jus de 2
+                        citrons et le sucre ensemble. Mixer jusqu'à obtenir la consistance désirée.
+                    </p>
+                    <p>INGREDIENTS</p>
+                    <ul class="receipe-card__ingredients">
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                    </ul>
+                </article>
+                <article class="receipe-card">
+                    <i class="receipe-card__tag">10min</i>
+                    <img loading="lazy" src="./assets/image/recipe/Recette03.jpg" alt="nom recette" />
+                    <h2 class="receipe-card__title">Limonade de coco</h2>
+                    <p>RECETTE</p>
+                    <p class="receipe-card__desc">
+                        Mettre les glaçons à votre goût dans le blender, Ajouter le lait la crème de coco, le jus de 2
+                        citrons et le sucre ensemble. Mixer jusqu'à obtenir la consistance désirée.
+                    </p>
+                    <p>INGREDIENTS</p>
+                    <ul class="receipe-card__ingredients">
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                        <li class="receipe-card__ingredient">
+                            <p class="receipe-card__ingredient-name">Nom ingredient</p>
+                            <p class="receipe-card__ingredient-quantity">2 ml</p>
+                        </li>
+                    </ul>
+                </article>
+            </section>
+        </main>
         <script src="./src/index.js" type="module"></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"
-        ></script>
+        <script src="./src/components/select.js"></script>
+        <script src="./src/components/searchbar.js"></script>
     </body>
 </html>
