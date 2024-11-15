@@ -1,86 +1,31 @@
 import { useRecipesService } from './services/UseRecipesService.js';
-import { stringToArray } from '../utils/stringUtils.js';
-import { containsObject } from '../utils/arrayUtils.js';
 
 const { getRecipes } = useRecipesService();
 
 export const useRecipes = () => {
     const recipes = getRecipes();
 
-    const retrieveAllElementsFromRecipes = () => {
-        const allRecipesNames = recipes.map((recipe) => ({
-            ...recipe.id,
-            id: recipe.id,
-            value: recipe.name.toLowerCase(),
-        }));
+    const findRecipesByWord = (word) => {
+        const result = new Set([]);
+        word = word.toLowerCase();
 
-        const allRecipesIngredients = [];
-        recipes.forEach((recipe) => {
-            allRecipesIngredients.push(
-                recipe.ingredients.map((ingredient) => ({
-                    ...recipe.id,
-                    id: recipe.id,
-                    value: ingredient.ingredient.toLowerCase(),
-                }))
-            );
-        });
-
-        const allRecipesDescriptions = recipes.map((recipe) => ({
-            ...recipe.id,
-            id: recipe.id,
-            value: stringToArray(recipe.description.toLowerCase()),
-        }));
-
-        return {
-            allRecipesNames,
-            allRecipesIngredients,
-            allRecipesDescriptions,
-        };
-    };
-
-    const retrieveRecipesByWord = (word, result, raw) => {
-        if (raw.value.includes(word)) {
-            const recipe = recipes.find((recipe) => recipe.id === raw.id);
-            if (!containsObject(result, recipe)) {
-                result.push(recipe);
+        for (let i = 0; i < recipes.length; i++) {
+            if (recipes[i].name.toLowerCase().includes(word)) {
+                result.add(recipes[i]);
+            } else if (recipes[i].description.toLowerCase().includes(word)) {
+                result.add(recipes[i]);
+            } else {
+                recipes[i].ingredients.forEach((ingredient) => {
+                    if (ingredient.ingredient.toLowerCase().includes(word)) {
+                        result.add(recipes[i]);
+                    }
+                });
             }
         }
+        return result;
     };
 
-    const findRecipes = (input) => {
-        const inputLowerCase = input.toLowerCase();
-        const allRecipesElements = retrieveAllElementsFromRecipes();
-        const inputToArray = stringToArray(inputLowerCase);
-        const result = [];
-
-        inputToArray.forEach((word) => {
-            allRecipesElements.allRecipesNames.forEach((recipeName) => {
-                retrieveRecipesByWord(word, result, recipeName);
-            });
-        });
-
-        inputToArray.forEach((word) => {
-            allRecipesElements.allRecipesIngredients.forEach((ingredients) => {
-                ingredients.forEach((ingredient) => {
-                    retrieveRecipesByWord(word, result, ingredient);
-                });
-            });
-        });
-
-        inputToArray.forEach((word) => {
-            allRecipesElements.allRecipesDescriptions.forEach((description) => {
-                retrieveRecipesByWord(word, result, description);
-            });
-        });
-
-        console.log(result);
-
-        return {
-            result,
-        };
-    };
     return {
-        retrieveAllElementsFromRecipes,
-        findRecipes,
+        findRecipesByWord,
     };
 };

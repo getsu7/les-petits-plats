@@ -1,6 +1,6 @@
 import { useRecipes } from '../composables/UseRecipes.js';
 
-const { findRecipes } = useRecipes();
+const { findRecipesByWord } = useRecipes();
 
 const searchbar = document.querySelector('.searchbar'),
     searchbarInput = searchbar.querySelector('.searchbar__input'),
@@ -10,7 +10,7 @@ searchbarInput.addEventListener('input', (text) => {
     if (text.target.value) {
         searchbarCancelButton.style.display = 'block';
         if (text.target.value.length >= 3) {
-            findRecipes(text.target.value);
+            console.log(findRecipesByWord(text.target.value));
         }
     } else {
         searchbarCancelButton.style.display = 'none';
