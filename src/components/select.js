@@ -1,11 +1,26 @@
-// let selectedOptions = [];
+import { useRecipesService } from '../composables/services/UseRecipesService.js';
+const { getIngredients, getUstensils, getAppliance } = useRecipesService();
+
+console.log(getIngredients());
+console.log(getUstensils());
+console.log(getAppliance());
 
 const optionIngredientMenu = document.querySelector('#ingredient-filter'),
     selectBtnIngredient = optionIngredientMenu.querySelector('.select-menu__btn'),
-    optionsIngredient = optionIngredientMenu.querySelectorAll('.select-menu__option'),
+    optionsIngredient = optionIngredientMenu.querySelector('.select-menu__options'),
     sBtnTextIngredient = optionIngredientMenu.querySelector('.select-btn__btn-text'),
     searchbarIngredientInput = optionIngredientMenu.querySelector('.select-menu__searchbar-input'),
     searchbarIngredientCancelButton = optionIngredientMenu.querySelector('.select-menu__searchbar-cancel');
+
+getIngredients().forEach((ingredient) => {
+    const ingredientRow = document.createElement('li');
+    ingredientRow.setAttribute('class', 'select-menu__option');
+    const ingredientText = document.createElement('span');
+    ingredientText.setAttribute('class', 'select-menu__text');
+    ingredientText.textContent = ingredient;
+    ingredientRow.appendChild(ingredientText);
+    optionsIngredient.appendChild(ingredientRow);
+});
 
 selectBtnIngredient.addEventListener('click', () => optionIngredientMenu.classList.toggle('active'));
 searchbarIngredientInput.addEventListener('input', (text) => {
@@ -32,10 +47,20 @@ searchbarIngredientCancelButton.addEventListener('click', () => {
 
 const optionEquipmentMenu = document.querySelector('#equipment-filter'),
     selectEquipmentBtn = optionEquipmentMenu.querySelector('.select-menu__btn'),
-    optionsEquipment = optionEquipmentMenu.querySelectorAll('.select-menu__option'),
+    optionsEquipment = optionEquipmentMenu.querySelector('.select-menu__options'),
     sBtnTextEquipment = optionEquipmentMenu.querySelector('.select-btn__btn-text'),
     searchbarEquipmentInput = optionEquipmentMenu.querySelector('.select-menu__searchbar-input'),
     searchbarEquipmentCancelButton = optionEquipmentMenu.querySelector('.select-menu__searchbar-cancel');
+
+getAppliance().forEach((appliance) => {
+    const equipementRow = document.createElement('li');
+    equipementRow.setAttribute('class', 'select-menu__option');
+    const equipementText = document.createElement('span');
+    equipementText.setAttribute('class', 'select-menu__text');
+    equipementText.textContent = appliance;
+    equipementRow.appendChild(equipementText);
+    optionsEquipment.appendChild(equipementRow);
+});
 
 selectEquipmentBtn.addEventListener('click', () => optionEquipmentMenu.classList.toggle('active'));
 searchbarEquipmentInput.addEventListener('input', (text) => {
@@ -61,10 +86,20 @@ searchbarEquipmentCancelButton.addEventListener('click', () => {
 
 const optionUstensilMenu = document.querySelector('#utensil-filter'),
     selectUstensilBtn = optionUstensilMenu.querySelector('.select-menu__btn'),
-    optionsUstensil = optionUstensilMenu.querySelectorAll('.select-menu__option'),
+    optionsUstensil = optionUstensilMenu.querySelector('.select-menu__options'),
     sBtnTextUstensil = optionUstensilMenu.querySelector('.select-btn__btn-text'),
     searchbarUstensilInput = optionUstensilMenu.querySelector('.select-menu__searchbar-input'),
     searchbarUstensilCancelButton = optionUstensilMenu.querySelector('.select-menu__searchbar-cancel');
+
+getUstensils().forEach((ustensil) => {
+    const ustensilRow = document.createElement('li');
+    ustensilRow.setAttribute('class', 'select-menu__option');
+    const ustensilText = document.createElement('span');
+    ustensilText.setAttribute('class', 'select-menu__text');
+    ustensilText.textContent = ustensil;
+    ustensilRow.appendChild(ustensilText);
+    optionsUstensil.appendChild(ustensilRow);
+});
 
 selectUstensilBtn.addEventListener('click', () => optionUstensilMenu.classList.toggle('active'));
 searchbarUstensilInput.addEventListener('input', (text) => {

@@ -39,15 +39,15 @@ export const useRecipes = () => {
 
         allRecipesDescriptions.forEach((recipeDescription) => allElements.push(recipeDescription));
 
-        return allElements;
+        return { allElements, allRecipesIngredients };
     };
 
     const findRecipes = (input) => {
         input = input.toLowerCase();
-        const allRecipesElements = retrieveAllElementsFromRecipes();
+        const { allElements } = retrieveAllElementsFromRecipes();
         const result = new Set([]);
 
-        const filtered = allRecipesElements.filter((recipeElement) => recipeElement.value.includes(input));
+        const filtered = allElements.filter((recipeElement) => recipeElement.value.includes(input));
 
         filtered.forEach((element) => result.add(recipes[element.id - 1]));
 
