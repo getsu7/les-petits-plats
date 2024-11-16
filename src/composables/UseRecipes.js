@@ -43,11 +43,11 @@ export const useRecipes = () => {
     };
 
     const findRecipes = (input) => {
-        const inputLowerCase = input.toLowerCase();
+        input = input.toLowerCase();
         const allRecipesElements = retrieveAllElementsFromRecipes();
         const result = new Set([]);
 
-        const filtered = allRecipesElements.filter((recipeElement) => recipeElement.value.includes(inputLowerCase));
+        const filtered = allRecipesElements.filter((recipeElement) => recipeElement.value.includes(input));
 
         filtered.forEach((element) => result.add(recipes[element.id - 1]));
 
@@ -57,5 +57,6 @@ export const useRecipes = () => {
     return {
         retrieveAllElementsFromRecipes,
         findRecipes,
+        recipes,
     };
 };
