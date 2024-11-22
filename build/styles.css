@@ -532,6 +532,7 @@ a {
   letter-spacing: 0.09em;
   text-align: left;
   color: #7a7a7a;
+  width: calc(33% - 4rem);
 }
 .recipe-card__tag {
   top: 0;
@@ -574,14 +575,22 @@ a {
   text-align: left;
 }
 .recipe-card__ingredients {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   column-gap: 2rem;
   row-gap: 1rem;
-  margin-bottom: 2rem;
+  margin: 0 2rem 2rem 2rem;
+}
+.recipe-card__ingredient > p {
+  margin-inline: 0;
+}
+.recipe-card__ingredient {
+  width: calc(50% - 2rem);
 }
 .recipe-card__ingredient-name {
-  text-wrap: nowrap;
+  text-align: left;
+  text-wrap: wrap;
   color: #000000;
   font-weight: 500;
   font-size: 14px;
@@ -590,7 +599,7 @@ a {
 header {
   display: flex;
   flex-direction: column;
-  background: center url("../assets/image/hero-section.jpg");
+  background: center url("../../assets/image/hero-section.jpg");
 }
 header nav {
   padding: 3rem;
@@ -642,10 +651,11 @@ main {
 }
 
 .recipes {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  row-gap: 5rem;
+  display: flex;
+  flex-wrap: wrap;
   column-gap: 4rem;
+  row-gap: 5rem;
+  justify-content: space-between;
 }
 
 /*# sourceMappingURL=styles.css.map */

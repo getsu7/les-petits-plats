@@ -4,7 +4,8 @@
   "description": " Accéder rapidement à une recette correspondant à un besoin de l’utilisateur",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "sass --watch sass/main.scss:build/styles.css"
   },
   "type": "module",
   "author": "getsu7",

@@ -48,8 +48,9 @@ main {
 }
 
 .recipes {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 5rem;
+    display: flex;
+    flex-wrap: wrap;
     column-gap: 4rem;
+    row-gap: 5rem;
+    justify-content: space-between;
 }
