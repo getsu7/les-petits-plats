@@ -1,35 +1,35 @@
-import { recipes } from '../../../data/recipes.js';
 import { stringEncode } from '../../utils/encoderUtils.js';
+import { recipes } from '../../../data/recipes.js';
 
 export const useRecipesService = () => {
     const getRecipes = () => {
         return recipes;
     };
 
-    const getIngredients = () => {
+    const getIngredients = (recipes) => {
         const ingredients = new Set([]);
 
-        getRecipes().forEach((recipe) => {
+        recipes.forEach((recipe) => {
             recipe.ingredients.forEach((ingredient) => ingredients.add(stringEncode(ingredient.ingredient)));
         });
 
         return ingredients;
     };
 
-    const getUstensils = () => {
+    const getUstensils = (recipes) => {
         const ustensils = new Set([]);
 
-        getRecipes().forEach((recipe) => {
+        recipes.forEach((recipe) => {
             recipe.ustensils.forEach((ustensil) => ustensils.add(stringEncode(ustensil)));
         });
 
         return ustensils;
     };
 
-    const getAppliance = () => {
+    const getAppliance = (recipes) => {
         const appliances = new Set([]);
 
-        getRecipes().forEach((recipe) => appliances.add(stringEncode(recipe.appliance)));
+        recipes.forEach((recipe) => appliances.add(stringEncode(recipe.appliance)));
 
         return appliances;
     };

@@ -1,9 +1,5 @@
 import { useRecipesService } from '../composables/services/UseRecipesService.js';
-const { getIngredients, getUstensils, getAppliance } = useRecipesService();
-
-console.log(getIngredients());
-console.log(getUstensils());
-console.log(getAppliance());
+const { getIngredients, getUstensils, getAppliance, getRecipes } = useRecipesService();
 
 const optionIngredientMenu = document.querySelector('#ingredient-filter'),
     selectBtnIngredient = optionIngredientMenu.querySelector('.select-menu__btn'),
@@ -11,16 +7,6 @@ const optionIngredientMenu = document.querySelector('#ingredient-filter'),
     sBtnTextIngredient = optionIngredientMenu.querySelector('.select-btn__btn-text'),
     searchbarIngredientInput = optionIngredientMenu.querySelector('.select-menu__searchbar-input'),
     searchbarIngredientCancelButton = optionIngredientMenu.querySelector('.select-menu__searchbar-cancel');
-
-getIngredients().forEach((ingredient) => {
-    const ingredientRow = document.createElement('li');
-    ingredientRow.setAttribute('class', 'select-menu__option');
-    const ingredientText = document.createElement('span');
-    ingredientText.setAttribute('class', 'select-menu__text');
-    ingredientText.textContent = ingredient;
-    ingredientRow.appendChild(ingredientText);
-    optionsIngredient.appendChild(ingredientRow);
-});
 
 selectBtnIngredient.addEventListener('click', () => optionIngredientMenu.classList.toggle('active'));
 searchbarIngredientInput.addEventListener('input', (text) => {
@@ -52,16 +38,6 @@ const optionEquipmentMenu = document.querySelector('#equipment-filter'),
     searchbarEquipmentInput = optionEquipmentMenu.querySelector('.select-menu__searchbar-input'),
     searchbarEquipmentCancelButton = optionEquipmentMenu.querySelector('.select-menu__searchbar-cancel');
 
-getAppliance().forEach((appliance) => {
-    const equipementRow = document.createElement('li');
-    equipementRow.setAttribute('class', 'select-menu__option');
-    const equipementText = document.createElement('span');
-    equipementText.setAttribute('class', 'select-menu__text');
-    equipementText.textContent = appliance;
-    equipementRow.appendChild(equipementText);
-    optionsEquipment.appendChild(equipementRow);
-});
-
 selectEquipmentBtn.addEventListener('click', () => optionEquipmentMenu.classList.toggle('active'));
 searchbarEquipmentInput.addEventListener('input', (text) => {
     if (text.target.value) {
@@ -91,16 +67,6 @@ const optionUstensilMenu = document.querySelector('#utensil-filter'),
     searchbarUstensilInput = optionUstensilMenu.querySelector('.select-menu__searchbar-input'),
     searchbarUstensilCancelButton = optionUstensilMenu.querySelector('.select-menu__searchbar-cancel');
 
-getUstensils().forEach((ustensil) => {
-    const ustensilRow = document.createElement('li');
-    ustensilRow.setAttribute('class', 'select-menu__option');
-    const ustensilText = document.createElement('span');
-    ustensilText.setAttribute('class', 'select-menu__text');
-    ustensilText.textContent = ustensil;
-    ustensilRow.appendChild(ustensilText);
-    optionsUstensil.appendChild(ustensilRow);
-});
-
 selectUstensilBtn.addEventListener('click', () => optionUstensilMenu.classList.toggle('active'));
 searchbarUstensilInput.addEventListener('input', (text) => {
     if (text.target.value) {
@@ -122,3 +88,49 @@ searchbarUstensilCancelButton.addEventListener('click', () => {
 //         }
 //     });
 // });
+
+const generateTemplate = (recipes) => {
+    getIngredients(recipes).forEach((ingredient) => {
+        const ingredientRow = document.createElement('li');
+        ingredientRow.setAttribute('class', 'select-menu__option');
+        const ingredientText = document.createElement('span');
+        ingredientText.setAttribute('class', 'select-menu__text');
+        ingredientText.textContent = ingredient;
+        ingredientRow.appendChild(ingredientText);
+        optionsIngredient.appendChild(ingredientRow);
+    });
+
+    getAppliance(recipes).forEach((appliance) => {
+        const equipementRow = document.createElement('li');
+        equipementRow.setAttribute('class', 'select-menu__option');
+        const equipementText = document.createElement('span');
+        equipementText.setAttribute('class', 'select-menu__text');
+        equipementText.textContent = appliance;
+        equipementRow.appendChild(equipementText);
+        optionsEquipment.appendChild(equipementRow);
+    });
+
+    getUstensils(recipes).forEach((ustensil) => {
+        const ustensilRow = document.createElement('li');
+        ustensilRow.setAttribute('class', 'select-menu__option');
+        const ustensilText = document.createElement('span');
+        ustensilText.setAttribute('class', 'select-menu__text');
+        ustensilText.textContent = ustensil;
+        ustensilRow.appendChild(ustensilText);
+        optionsUstensil.appendChild(ustensilRow);
+    });
+};
+
+const clearFiltersSectionDom = () => {
+    const filters = document.querySelectorAll('.select-menu__options');
+    filters.forEach((filter) => {
+        filter.innerHTML = '';
+    });
+};
+
+document.addEventListener('updateFilters', (ev) => {
+    clearFiltersSectionDom();
+    generateTemplate(ev.detail.recipes);
+});
+
+generateTemplate(getRecipes());

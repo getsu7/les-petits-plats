@@ -20,23 +20,18 @@ searchbarInput.addEventListener('input', (text) => {
     if (text.target.value) {
         searchbarCancelButton.style.display = 'block';
         if (text.target.value.length >= 3) {
-            clearRecipeSectionDom();
-            recipeCounter.textContent = findRecipes(text.target.value).size.toString() + ' recettes';
-            findRecipes(text.target.value).forEach((recipe) => {
+            recipesSection.innerHTML = '';
+            const recipes = findRecipes(text.target.value);
+            recipeCounter.textContent = recipes.size.toString() + ' recettes';
+            recipes.forEach((recipe) => {
                 recipesSection.appendChild(generateTemplate(recipe));
             });
+            document.dispatchEvent(new CustomEvent('updateFilters', { detail: { recipes: recipes } }));
         }
     } else if (!text.target.value) {
         searchbarCancelButton.style.display = 'none';
-        clearRecipeSectionDom();
+        recipesSection.innerHTML = '';
         recipeCounter.textContent = findRecipes(text.target.value).size.toString() + ' recettes';
         document.dispatchEvent(new CustomEvent('searchbarEmpty'));
     }
 });
-
-const clearRecipeSectionDom = () => {
-    const recipeCards = recipesSection.querySelectorAll('.recipe-card');
-    recipeCards.forEach((recipeCard) => {
-        recipesSection.removeChild(recipeCard);
-    });
-};
