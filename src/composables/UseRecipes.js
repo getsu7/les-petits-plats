@@ -54,9 +54,14 @@ export const useRecipes = () => {
         return result;
     };
 
+    const findFromRecipes = (input, filterValues) => {
+        return filterValues.filter((filterValue) => filterValue.includes(input));
+    };
+
     return {
         retrieveAllElementsFromRecipes,
         findRecipes,
         recipes,
+        findFromRecipes,
     };
 };

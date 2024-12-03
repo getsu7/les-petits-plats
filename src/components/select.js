@@ -1,5 +1,7 @@
 import { useRecipesService } from '../composables/services/UseRecipesService.js';
+import { useRecipes } from '../composables/UseRecipes.js';
 const { getIngredients, getUstensils, getAppliance, getRecipes } = useRecipesService();
+const { findFromRecipes } = useRecipes();
 
 const optionIngredientMenu = document.querySelector('#ingredient-filter'),
     selectBtnIngredient = optionIngredientMenu.querySelector('.select-menu__btn'),
@@ -12,7 +14,18 @@ selectBtnIngredient.addEventListener('click', () => optionIngredientMenu.classLi
 searchbarIngredientInput.addEventListener('input', (text) => {
     if (text.target.value) {
         searchbarIngredientCancelButton.style.display = 'flex';
+        if (text.target.value.length >= 3) {
+            const ingredients = [];
+            optionsIngredient.querySelectorAll('.select-menu__option').forEach((optionIngredient) => {
+                ingredients.push(optionIngredient.textContent);
+            });
+            optionsIngredient.innerHTML = '';
+            const result = findFromRecipes(text.target.value, ingredients);
+            generateIngredientTemplate(result);
+        }
     } else {
+        optionsIngredient.innerHTML = '';
+        generateIngredientTemplate();
         searchbarIngredientCancelButton.style.display = 'none';
     }
 });
@@ -89,18 +102,12 @@ searchbarUstensilCancelButton.addEventListener('click', () => {
 //     });
 // });
 
-const generateTemplate = (recipes) => {
-    getIngredients(recipes).forEach((ingredient) => {
-        const ingredientRow = document.createElement('li');
-        ingredientRow.setAttribute('class', 'select-menu__option');
-        const ingredientText = document.createElement('span');
-        ingredientText.setAttribute('class', 'select-menu__text');
-        ingredientText.textContent = ingredient;
-        ingredientRow.appendChild(ingredientText);
-        optionsIngredient.appendChild(ingredientRow);
-    });
-
-    getAppliance(recipes).forEach((appliance) => {
+const generateApplianceTemplate = (values) => {
+    if (!values) {
+        values = getAppliance(getRecipes());
+    }
+    console.log(values);
+    values.forEach((appliance) => {
         const equipementRow = document.createElement('li');
         equipementRow.setAttribute('class', 'select-menu__option');
         const equipementText = document.createElement('span');
@@ -109,8 +116,13 @@ const generateTemplate = (recipes) => {
         equipementRow.appendChild(equipementText);
         optionsEquipment.appendChild(equipementRow);
     });
+};
 
-    getUstensils(recipes).forEach((ustensil) => {
+const generateUstencilTemplate = (values) => {
+    if (!values) {
+        values = getUstensils(getRecipes());
+    }
+    values.forEach((ustensil) => {
         const ustensilRow = document.createElement('li');
         ustensilRow.setAttribute('class', 'select-menu__option');
         const ustensilText = document.createElement('span');
@@ -118,6 +130,25 @@ const generateTemplate = (recipes) => {
         ustensilText.textContent = ustensil;
         ustensilRow.appendChild(ustensilText);
         optionsUstensil.appendChild(ustensilRow);
+    });
+};
+
+const generateIngredientTemplate = (values) => {
+    // VERIFIER LE TYPE DANS LE CAS OU ON PASSE PAR LA BAR DE RECHERCHE
+    if (!values) {
+        values = getIngredients(getRecipes());
+    }
+    if (typeof values === Set.name) {
+        values = getIngredients(values);
+    }
+    values.forEach((ingredient) => {
+        const ingredientRow = document.createElement('li');
+        ingredientRow.setAttribute('class', 'select-menu__option');
+        const ingredientText = document.createElement('span');
+        ingredientText.setAttribute('class', 'select-menu__text');
+        ingredientText.textContent = ingredient;
+        ingredientRow.appendChild(ingredientText);
+        optionsIngredient.appendChild(ingredientRow);
     });
 };
 
@@ -130,7 +161,15 @@ const clearFiltersSectionDom = () => {
 
 document.addEventListener('updateFilters', (ev) => {
     clearFiltersSectionDom();
-    generateTemplate(ev.detail.recipes);
+    generateIngredientTemplate(ev.detail.recipes);
+    generateUstencilTemplate(ev.detail.recipes);
+    generateApplianceTemplate(ev.detail.recipes);
 });
 
-generateTemplate(getRecipes());
+const init = () => {
+    generateIngredientTemplate();
+    generateUstencilTemplate();
+    generateApplianceTemplate();
+};
+
+init();
