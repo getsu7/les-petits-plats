@@ -26,7 +26,7 @@ searchbarInput.addEventListener('input', (text) => {
             recipes.forEach((recipe) => {
                 recipesSection.appendChild(generateTemplate(recipe));
             });
-            document.dispatchEvent(new CustomEvent('updateFilters', { detail: { recipes: recipes } }));
+            document.dispatchEvent(new CustomEvent('updateFiltersFromSearchar', { detail: { recipes: recipes } }));
         }
     } else if (!text.target.value) {
         searchbarCancelButton.style.display = 'none';

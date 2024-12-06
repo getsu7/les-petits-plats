@@ -3,10 +3,18 @@ import { useRecipes } from '../composables/UseRecipes.js';
 const { getIngredients, getUstensils, getAppliance, getRecipes } = useRecipesService();
 const { findFromRecipes } = useRecipes();
 
+const selectedOptionsIngredient = new Set([]);
+const selectedOptionsEquipement = new Set([]);
+const selectedOptionsUstensil = new Set([]);
+
+/*
+ *
+ *   INGREDIENT
+ *
+ * */
 const optionIngredientMenu = document.querySelector('#ingredient-filter'),
     selectBtnIngredient = optionIngredientMenu.querySelector('.select-menu__btn'),
     optionsIngredient = optionIngredientMenu.querySelector('.select-menu__options'),
-    sBtnTextIngredient = optionIngredientMenu.querySelector('.select-btn__btn-text'),
     searchbarIngredientInput = optionIngredientMenu.querySelector('.select-menu__searchbar-input'),
     searchbarIngredientCancelButton = optionIngredientMenu.querySelector('.select-menu__searchbar-cancel');
 
@@ -35,28 +43,35 @@ searchbarIngredientCancelButton.addEventListener('click', () => {
     searchbarIngredientCancelButton.style.display = 'none';
 });
 
-// optionsIngredient.forEach((option) => {
-//     option.addEventListener('click', () => {
-//         const optionText = option.querySelector('.select-menu__text');
-//         if (optionText !== null) {
-//             selectedOptions.push(option.querySelector('.select-menu__text').innerText);
-//         }
-//     });
-// });
-
+/*
+ *
+ *   EQUIPEMENT
+ *
+ * */
 const optionEquipmentMenu = document.querySelector('#equipment-filter'),
     selectEquipmentBtn = optionEquipmentMenu.querySelector('.select-menu__btn'),
     optionsEquipment = optionEquipmentMenu.querySelector('.select-menu__options'),
-    sBtnTextEquipment = optionEquipmentMenu.querySelector('.select-btn__btn-text'),
     searchbarEquipmentInput = optionEquipmentMenu.querySelector('.select-menu__searchbar-input'),
     searchbarEquipmentCancelButton = optionEquipmentMenu.querySelector('.select-menu__searchbar-cancel');
 
 selectEquipmentBtn.addEventListener('click', () => optionEquipmentMenu.classList.toggle('active'));
+
 searchbarEquipmentInput.addEventListener('input', (text) => {
     if (text.target.value) {
         searchbarEquipmentCancelButton.style.display = 'flex';
-    } else {
-        searchbarEquipmentCancelButton.style.display = 'none';
+        if (text.target.value.length >= 3) {
+            const equipements = [];
+            optionsEquipment.querySelectorAll('.select-menu__option').forEach((optionEquipment) => {
+                equipements.push(optionEquipment.textContent);
+            });
+            optionsEquipment.innerHTML = '';
+            const result = findFromRecipes(text.target.value, equipements);
+            generateApplianceTemplate(result);
+        } else {
+            optionsEquipment.innerHTML = '';
+            generateApplianceTemplate();
+            searchbarEquipmentCancelButton.style.display = 'none';
+        }
     }
 });
 
@@ -64,28 +79,36 @@ searchbarEquipmentCancelButton.addEventListener('click', () => {
     searchbarEquipmentInput.value = '';
     searchbarEquipmentCancelButton.style.display = 'none';
 });
-// optionsEquipment.forEach((option) => {
-//     option.addEventListener('click', () => {
-//         const optionText = option.querySelector('.select-menu__text');
-//         if (optionText !== null) {
-//             selectedOptions.push(option.querySelector('.select-menu__text').innerText);
-//         }
-//     });
-// });
 
+/*
+ *
+ *   USTENCIL
+ *
+ * */
 const optionUstensilMenu = document.querySelector('#utensil-filter'),
     selectUstensilBtn = optionUstensilMenu.querySelector('.select-menu__btn'),
     optionsUstensil = optionUstensilMenu.querySelector('.select-menu__options'),
-    sBtnTextUstensil = optionUstensilMenu.querySelector('.select-btn__btn-text'),
     searchbarUstensilInput = optionUstensilMenu.querySelector('.select-menu__searchbar-input'),
     searchbarUstensilCancelButton = optionUstensilMenu.querySelector('.select-menu__searchbar-cancel');
 
 selectUstensilBtn.addEventListener('click', () => optionUstensilMenu.classList.toggle('active'));
+
 searchbarUstensilInput.addEventListener('input', (text) => {
     if (text.target.value) {
         searchbarUstensilCancelButton.style.display = 'flex';
-    } else {
-        searchbarUstensilCancelButton.style.display = 'none';
+        if (text.target.value.length >= 3) {
+            const ustencils = [];
+            optionsUstensil.querySelectorAll('.select-menu__option').forEach((optionUstencil) => {
+                optionsUstensil.push(optionUstencil.textContent);
+            });
+            optionsUstensil.innerHTML = '';
+            const result = findFromRecipes(text.target.value, ustencils);
+            generateUstencilTemplate(result);
+        } else {
+            optionsUstensil.innerHTML = '';
+            generateUstencilTemplate();
+            searchbarUstensilCancelButton.style.display = 'none';
+        }
     }
 });
 
@@ -93,20 +116,16 @@ searchbarUstensilCancelButton.addEventListener('click', () => {
     searchbarUstensilInput.value = '';
     searchbarUstensilCancelButton.style.display = 'none';
 });
-// optionsUstensil.forEach((option) => {
-//     option.addEventListener('click', () => {
-//         const optionText = option.querySelector('.select-menu__text');
-//         if (optionText !== null) {
-//             selectedOptions.push(option.querySelector('.select-menu__text').innerText);
-//         }
-//     });
-// });
 
-const generateApplianceTemplate = (values) => {
-    if (!values) {
-        values = getAppliance(getRecipes());
+/*
+ *
+ *   TEMPLATE
+ *
+ * */
+const generateApplianceTemplate = (values = getAppliance(getRecipes()), fromSearchBar = false) => {
+    if (fromSearchBar) {
+        values = getAppliance(values);
     }
-    console.log(values);
     values.forEach((appliance) => {
         const equipementRow = document.createElement('li');
         equipementRow.setAttribute('class', 'select-menu__option');
@@ -117,10 +136,9 @@ const generateApplianceTemplate = (values) => {
         optionsEquipment.appendChild(equipementRow);
     });
 };
-
-const generateUstencilTemplate = (values) => {
-    if (!values) {
-        values = getUstensils(getRecipes());
+const generateUstencilTemplate = (values = getUstensils(getRecipes()), fromSearchBar = false) => {
+    if (fromSearchBar) {
+        values = getUstensils(values);
     }
     values.forEach((ustensil) => {
         const ustensilRow = document.createElement('li');
@@ -132,13 +150,8 @@ const generateUstencilTemplate = (values) => {
         optionsUstensil.appendChild(ustensilRow);
     });
 };
-
-const generateIngredientTemplate = (values) => {
-    // VERIFIER LE TYPE DANS LE CAS OU ON PASSE PAR LA BAR DE RECHERCHE
-    if (!values) {
-        values = getIngredients(getRecipes());
-    }
-    if (typeof values === Set.name) {
+const generateIngredientTemplate = (values = getIngredients(getRecipes()), fromSearchBar = false) => {
+    if (fromSearchBar) {
         values = getIngredients(values);
     }
     values.forEach((ingredient) => {
@@ -159,17 +172,45 @@ const clearFiltersSectionDom = () => {
     });
 };
 
-document.addEventListener('updateFilters', (ev) => {
-    clearFiltersSectionDom();
-    generateIngredientTemplate(ev.detail.recipes);
-    generateUstencilTemplate(ev.detail.recipes);
-    generateApplianceTemplate(ev.detail.recipes);
-});
-
 const init = () => {
     generateIngredientTemplate();
     generateUstencilTemplate();
     generateApplianceTemplate();
+
+    optionsEquipment.querySelectorAll('.select-menu__option').forEach((option) => {
+        option.addEventListener('click', () => {
+            selectedOptionsEquipement.add(option.innerText);
+        });
+    });
+
+    optionsIngredient.querySelectorAll('.select-menu__option').forEach((option) => {
+        option.addEventListener('click', () => {
+            selectedOptionsIngredient.add(option.innerText);
+        });
+    });
+
+    optionsUstensil.querySelectorAll('.select-menu__option').forEach((option) => {
+        option.addEventListener('click', () => {
+            selectedOptionsUstensil.add(option.innerText);
+        });
+    });
 };
+
+/*
+ *
+ *   EVENTS
+ *
+ * */
+document.addEventListener('updateFiltersFromSearchar', (ev) => {
+    clearFiltersSectionDom();
+    generateIngredientTemplate(ev.detail.recipes, true);
+    generateUstencilTemplate(ev.detail.recipes, true);
+    generateApplianceTemplate(ev.detail.recipes, true);
+});
+
+document.addEventListener('searchbarEmpty', () => {
+    clearFiltersSectionDom();
+    init();
+});
 
 init();

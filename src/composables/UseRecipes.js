@@ -55,7 +55,12 @@ export const useRecipes = () => {
     };
 
     const findFromRecipes = (input, filterValues) => {
-        return filterValues.filter((filterValue) => filterValue.includes(input));
+        const result = new Set([]);
+        const filtered = filterValues.filter((filterValue) => filterValue.toLowerCase().includes(input.toLowerCase()));
+
+        filtered.forEach((value) => result.add(value));
+
+        return result;
     };
 
     return {
