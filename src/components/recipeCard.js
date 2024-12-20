@@ -1,6 +1,6 @@
 import { stringEncode } from '../utils/encoderUtils.js';
 
-export const generateTemplate = (recipe) => {
+export const generateRecipeCardTemplate = (recipe) => {
     const { image, name, ingredients, time, description } = recipe;
 
     const imagePath = '../assets/image/recipe/' + stringEncode(image);

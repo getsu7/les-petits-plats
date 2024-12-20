@@ -7,7 +7,7 @@ body {
 main {
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 2rem;
     margin: 2rem 4rem 5rem 4rem;
 }
 
@@ -44,6 +44,17 @@ main {
         font-weight: 400;
         margin-left: auto;
         align-self: center;
+    }
+}
+
+.tags {
+    display: flex;
+    gap: 3rem;
+
+    &__ingredient {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
     }
 }
 

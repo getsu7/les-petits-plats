@@ -1,0 +1,15 @@
+.tag {
+    display: flex;
+    justify-content: space-between;
+    height: 53px;
+    padding: 17px 16px 17px 16px;
+    border-radius: 11px;
+    background: #ffd15b;
+    font-size: 14px;
+    gap: 63px;
+    align-items: center;
+
+    &__remove-button {
+        width: 10px;
+    }
+}
