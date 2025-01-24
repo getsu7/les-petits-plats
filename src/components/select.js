@@ -193,8 +193,15 @@ const init = () => {
         option.addEventListener('click', () => {
             selectedOptionsEquipement.add(option.innerText);
             document.dispatchEvent(
-                new CustomEvent('tagEquipementSelected', { detail: { tag: selectedOptionsEquipement } })
+                new CustomEvent('tagSelected', {
+                    detail: {
+                        selectedOptionsEquipement: selectedOptionsEquipement,
+                        selectedOptionsIngredient: selectedOptionsIngredient,
+                        selectedOptionsUstensil: selectedOptionsUstensil,
+                    },
+                })
             );
+            init();
         });
     });
 
@@ -202,7 +209,13 @@ const init = () => {
         option.addEventListener('click', () => {
             selectedOptionsIngredient.add(option.innerText);
             document.dispatchEvent(
-                new CustomEvent('tagIngredientSelected', { detail: { tag: selectedOptionsIngredient } })
+                new CustomEvent('tagSelected', {
+                    detail: {
+                        selectedOptionsEquipement: selectedOptionsEquipement,
+                        selectedOptionsIngredient: selectedOptionsIngredient,
+                        selectedOptionsUstensil: selectedOptionsUstensil,
+                    },
+                })
             );
             init();
         });
@@ -212,8 +225,15 @@ const init = () => {
         option.addEventListener('click', () => {
             selectedOptionsUstensil.add(option.innerText);
             document.dispatchEvent(
-                new CustomEvent('tagUstensilSelected', { detail: { tag: selectedOptionsUstensil } })
+                new CustomEvent('tagSelected', {
+                    detail: {
+                        selectedOptionsEquipement: selectedOptionsEquipement,
+                        selectedOptionsIngredient: selectedOptionsIngredient,
+                        selectedOptionsUstensil: selectedOptionsUstensil,
+                    },
+                })
             );
+            init();
         });
     });
 };

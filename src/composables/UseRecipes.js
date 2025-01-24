@@ -43,27 +43,6 @@ export const useRecipes = () => {
         return { allElements, allRecipesIngredients };
     };
 
-    const findRecipes = (input, selectedOptionsIngredient) => {
-        input = input.toLowerCase();
-        const { allElements } = retrieveAllElementsFromRecipes();
-
-        const filtered = allElements.filter((recipeElement) => recipeElement.value.includes(input));
-
-        // Récupérer les recettes correspondant au texte saisi
-        let matchingRecipes = filtered.map((element) => recipes[element.id - 1]);
-
-        // Si des ingrédients sont sélectionnés, filtrer davantage
-        if (selectedOptionsIngredient && selectedOptionsIngredient.size > 0) {
-            matchingRecipes = matchingRecipes.filter((recipe) =>
-                Array.from(selectedOptionsIngredient).every((selectedIngredient) =>
-                    recipe.ingredients.some((ing) => ing.ingredient.toLowerCase() === selectedIngredient.toLowerCase())
-                )
-            );
-        }
-        recipeState.clear();
-        matchingRecipes.forEach((element) => recipeState.add(recipes[element.id - 1]));
-    };
-
     // Retourne les éléments contenu dans les filtres
     const findFromRecipes = (input, filterValues) => {
         const result = new Set([]);
@@ -74,17 +53,12 @@ export const useRecipes = () => {
         return result;
     };
 
-    const filterRecipesByIngredients = (selectedOptionsIngredient) => {
-        const result = Array.from(recipeState).filter((recipe) =>
-            Array.from(selectedOptionsIngredient).every((selectedIngredient) =>
-                recipe.ingredients.some((ing) => ing.ingredient.toLowerCase() === selectedIngredient.toLowerCase())
-            )
-        );
-        recipeState.clear();
-        result.forEach((recipe) => recipeState.add(recipe));
-    };
-
-    const updateRecipeState = (input = '', selectedOptionsIngredient = new Set()) => {
+    const updateRecipeState = (
+        input = '',
+        selectedOptionsIngredient = new Set(),
+        selectedOptionsEquipement = new Set(),
+        selectedOptionsUstensil = new Set()
+    ) => {
         input = input.toLowerCase();
 
         const { allElements } = retrieveAllElementsFromRecipes();
@@ -101,6 +75,22 @@ export const useRecipes = () => {
             );
         }
 
+        if (selectedOptionsEquipement.size > 0) {
+            matchingRecipes = matchingRecipes.filter((recipe) =>
+                Array.from(selectedOptionsEquipement).every(
+                    (selectedAppliance) => recipe.appliance.toLowerCase() === selectedAppliance.toLowerCase()
+                )
+            );
+        }
+
+        if (selectedOptionsUstensil.size > 0) {
+            matchingRecipes = matchingRecipes.filter((recipe) =>
+                Array.from(selectedOptionsUstensil).every((selectedUstensil) =>
+                    recipe.ustensils.some((ustensil) => ustensil.toLowerCase() === selectedUstensil.toLowerCase())
+                )
+            );
+        }
+
         // Maj recipe state
         recipeState.clear();
         matchingRecipes.forEach((recipe) => recipeState.add(recipe));
@@ -108,10 +98,8 @@ export const useRecipes = () => {
 
     return {
         retrieveAllElementsFromRecipes,
-        findRecipes,
         recipes,
         findFromRecipes,
-        filterRecipesByIngredients,
         updateRecipeState,
     };
 };

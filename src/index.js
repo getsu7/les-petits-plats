@@ -2,7 +2,7 @@ import { generateRecipeCardTemplate } from './components/recipeCard.js';
 import { useRecipesService } from './composables/services/UseRecipesService.js';
 import { useRecipes } from './composables/UseRecipes.js';
 const { getRecipes } = useRecipesService();
-const { filterRecipesByIngredients } = useRecipes();
+const { updateRecipeState } = useRecipes();
 
 export const recipeState = new Set(getRecipes());
 
@@ -19,13 +19,22 @@ const init = () => {
 document.addEventListener('searchbarEmpty', (ev) => {
     recipeState.clear();
     getRecipes().forEach((recipe) => recipeState.add(recipe));
-    filterRecipesByIngredients(ev.detail.selectedOptionsIngredient);
-    // updateRecipeState('', ev.detail.selectedOptionsIngredient);
+    updateRecipeState(
+        '',
+        ev.detail.selectedOptionsIngredient,
+        ev.detail.selectedOptionsEquipement,
+        ev.detail.selectedOptionsUstensil
+    );
     init();
 });
 
-document.addEventListener('tagIngredientSelected', (ev) => {
-    filterRecipesByIngredients(ev.detail.tag);
+document.addEventListener('tagSelected', (ev) => {
+    updateRecipeState(
+        '',
+        ev.detail.selectedOptionsIngredient,
+        ev.detail.selectedOptionsEquipement,
+        ev.detail.selectedOptionsUstensil
+    );
     recipesSection.innerHTML = '';
     init();
 });

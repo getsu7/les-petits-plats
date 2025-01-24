@@ -1,7 +1,7 @@
 import { useRecipes } from '../composables/UseRecipes.js';
-import { selectedOptionsIngredient } from './select.js';
+import { selectedOptionsEquipement, selectedOptionsIngredient, selectedOptionsUstensil } from './select.js';
 
-const { findRecipes } = useRecipes();
+const { updateRecipeState } = useRecipes();
 
 const searchbar = document.querySelector('.searchbar'),
     searchbarInput = searchbar.querySelector('.searchbar__input'),
@@ -19,14 +19,25 @@ searchbarInput.addEventListener('input', (text) => {
         searchbarCancelButton.style.display = 'block';
         if (text.target.value.length >= 3) {
             recipesSection.innerHTML = '';
-            findRecipes(text.target.value, selectedOptionsIngredient);
+            updateRecipeState(
+                text.target.value,
+                selectedOptionsIngredient,
+                selectedOptionsEquipement,
+                selectedOptionsUstensil
+            );
             document.dispatchEvent(new CustomEvent('updateRecipeStateFromSearchbar'));
         }
     } else if (!text.target.value) {
         searchbarCancelButton.style.display = 'none';
         recipesSection.innerHTML = '';
         document.dispatchEvent(
-            new CustomEvent('searchbarEmpty', { detail: { selectedOptionsIngredient: selectedOptionsIngredient } })
+            new CustomEvent('searchbarEmpty', {
+                detail: {
+                    selectedOptionsIngredient: selectedOptionsIngredient,
+                    selectedOptionsEquipement: selectedOptionsEquipement,
+                    selectedOptionsUstensil: selectedOptionsUstensil,
+                },
+            })
         );
     }
 });
