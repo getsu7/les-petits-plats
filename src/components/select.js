@@ -1,12 +1,23 @@
 import { recipeState } from '../index.js';
 import { useRecipesService } from '../composables/services/UseRecipesService.js';
 import { useRecipes } from '../composables/UseRecipes.js';
+import { generateFilterTagTemplate } from './filterTag.js';
 const { getIngredients, getUstensils, getAppliance } = useRecipesService();
 const { findFromRecipes } = useRecipes();
 
 export const selectedOptionsIngredient = new Set([]);
 export const selectedOptionsEquipement = new Set([]);
 export const selectedOptionsUstensil = new Set([]);
+
+/*
+ *
+ *   TAG
+ *
+ * */
+const tagSection = document.querySelector('.tags'),
+    tagIngredientSection = tagSection.querySelector('.tags__ingredient'),
+    tagEquipmentSection = tagSection.querySelector('.tags__equipment'),
+    tagUstensilSection = tagSection.querySelector('.tags__ustensil');
 /*
  *
  *   INGREDIENT
@@ -41,6 +52,8 @@ searchbarIngredientInput.addEventListener('input', (text) => {
 searchbarIngredientCancelButton.addEventListener('click', () => {
     searchbarIngredientInput.value = '';
     searchbarIngredientCancelButton.style.display = 'none';
+    optionsIngredient.innerHTML = '';
+    generateIngredientTemplate();
 });
 
 /*
@@ -78,6 +91,8 @@ searchbarEquipmentInput.addEventListener('input', (text) => {
 searchbarEquipmentCancelButton.addEventListener('click', () => {
     searchbarEquipmentInput.value = '';
     searchbarEquipmentCancelButton.style.display = 'none';
+    optionsEquipment.innerHTML = '';
+    generateApplianceTemplate();
 });
 
 /*
@@ -115,6 +130,8 @@ searchbarUstensilInput.addEventListener('input', (text) => {
 searchbarUstensilCancelButton.addEventListener('click', () => {
     searchbarUstensilInput.value = '';
     searchbarUstensilCancelButton.style.display = 'none';
+    optionsUstensil.innerHTML = '';
+    generateUstensilTemplate();
 });
 
 /*
@@ -138,6 +155,8 @@ const generateApplianceTemplate = (values = recipeState, fromSearchBar = false) 
     const appliances = fromSearchBar ? values : getAppliance(values);
 
     addApplianceRow(appliances);
+    setupOptionClickHandler(optionsEquipment, selectedOptionsEquipement, tagEquipmentSection, 'equipment');
+    setupRemoveTagHandler(tagEquipmentSection, selectedOptionsEquipement, 'tagUpdated');
 };
 
 const generateUstensilTemplate = (values = recipeState, fromSearchBar = false) => {
@@ -156,6 +175,8 @@ const generateUstensilTemplate = (values = recipeState, fromSearchBar = false) =
     const ustensils = fromSearchBar ? values : getUstensils(values);
 
     addUstensilRow(ustensils);
+    setupOptionClickHandler(optionsUstensil, selectedOptionsUstensil, tagUstensilSection, 'ustensil');
+    setupRemoveTagHandler(tagUstensilSection, selectedOptionsUstensil, 'tagUpdated');
 };
 
 const generateIngredientTemplate = (values = recipeState, fromSearchBar = false) => {
@@ -174,6 +195,8 @@ const generateIngredientTemplate = (values = recipeState, fromSearchBar = false)
     const ingredients = fromSearchBar ? values : getIngredients(values);
 
     addIngredientRow(ingredients);
+    setupOptionClickHandler(optionsIngredient, selectedOptionsIngredient, tagIngredientSection, 'ingredient');
+    setupRemoveTagHandler(tagIngredientSection, selectedOptionsIngredient, 'tagUpdated');
 };
 
 const clearFiltersSectionDom = () => {
@@ -183,59 +206,61 @@ const clearFiltersSectionDom = () => {
     });
 };
 
+const setupOptionClickHandler = (options, selectedOptions, section, type) => {
+    const searchbarInput = document.querySelector('.searchbar__input').value;
+    options.querySelectorAll('.select-menu__option').forEach((option) => {
+        option.addEventListener('click', () => {
+            if (!selectedOptions.has(option.textContent)) {
+                section.appendChild(generateFilterTagTemplate(option.textContent, type));
+            }
+            selectedOptions.add(option.textContent);
+            document.dispatchEvent(
+                new CustomEvent('tagUpdated', {
+                    detail: {
+                        searchbarInput: searchbarInput,
+                        selectedOptionsEquipement: selectedOptionsEquipement,
+                        selectedOptionsIngredient: selectedOptionsIngredient,
+                        selectedOptionsUstensil: selectedOptionsUstensil,
+                    },
+                })
+            );
+            init();
+        });
+    });
+};
+
+const setupRemoveTagHandler = (section, selectedOptions, eventName) => {
+    if (selectedOptions.size > 0) {
+        const searchbarInput = document.querySelector('.searchbar__input').value;
+        const allRemoveBtn = section.querySelectorAll('.tag__remove-button');
+        allRemoveBtn.forEach((removeButton) => {
+            removeButton.addEventListener('click', function (ev) {
+                const tagName = ev.currentTarget.parentElement.dataset.id;
+                ev.currentTarget.parentElement.remove();
+                if (selectedOptions.has(tagName)) {
+                    selectedOptions.delete(tagName);
+                    document.dispatchEvent(
+                        new CustomEvent(eventName, {
+                            detail: {
+                                searchbarInput: searchbarInput,
+                                selectedOptionsEquipement: selectedOptionsEquipement,
+                                selectedOptionsIngredient: selectedOptionsIngredient,
+                                selectedOptionsUstensil: selectedOptionsUstensil,
+                            },
+                        })
+                    );
+                    init();
+                }
+            });
+        });
+    }
+};
+
 const init = () => {
     clearFiltersSectionDom();
     generateIngredientTemplate();
     generateUstensilTemplate();
     generateApplianceTemplate();
-
-    optionsEquipment.querySelectorAll('.select-menu__option').forEach((option) => {
-        option.addEventListener('click', () => {
-            selectedOptionsEquipement.add(option.innerText);
-            document.dispatchEvent(
-                new CustomEvent('tagSelected', {
-                    detail: {
-                        selectedOptionsEquipement: selectedOptionsEquipement,
-                        selectedOptionsIngredient: selectedOptionsIngredient,
-                        selectedOptionsUstensil: selectedOptionsUstensil,
-                    },
-                })
-            );
-            init();
-        });
-    });
-
-    optionsIngredient.querySelectorAll('.select-menu__option').forEach((option) => {
-        option.addEventListener('click', () => {
-            selectedOptionsIngredient.add(option.innerText);
-            document.dispatchEvent(
-                new CustomEvent('tagSelected', {
-                    detail: {
-                        selectedOptionsEquipement: selectedOptionsEquipement,
-                        selectedOptionsIngredient: selectedOptionsIngredient,
-                        selectedOptionsUstensil: selectedOptionsUstensil,
-                    },
-                })
-            );
-            init();
-        });
-    });
-
-    optionsUstensil.querySelectorAll('.select-menu__option').forEach((option) => {
-        option.addEventListener('click', () => {
-            selectedOptionsUstensil.add(option.innerText);
-            document.dispatchEvent(
-                new CustomEvent('tagSelected', {
-                    detail: {
-                        selectedOptionsEquipement: selectedOptionsEquipement,
-                        selectedOptionsIngredient: selectedOptionsIngredient,
-                        selectedOptionsUstensil: selectedOptionsUstensil,
-                    },
-                })
-            );
-            init();
-        });
-    });
 };
 
 /*

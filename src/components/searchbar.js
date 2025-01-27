@@ -12,6 +12,15 @@ const recipesSection = document.querySelector('.recipes');
 searchbarCancelButton.addEventListener('click', () => {
     searchbarInput.value = '';
     searchbarCancelButton.style.display = 'none';
+    document.dispatchEvent(
+        new CustomEvent('searchbarEmpty', {
+            detail: {
+                selectedOptionsIngredient: selectedOptionsIngredient,
+                selectedOptionsEquipement: selectedOptionsEquipement,
+                selectedOptionsUstensil: selectedOptionsUstensil,
+            },
+        })
+    );
 });
 
 searchbarInput.addEventListener('input', (text) => {

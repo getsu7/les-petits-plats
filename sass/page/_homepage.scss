@@ -55,6 +55,19 @@ main {
         display: flex;
         flex-direction: column;
         gap: 0.3rem;
+        width: 195px;
+    }
+    &__ustensil {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        width: 195px;
+    }
+    &__equipment {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        width: 195px;
     }
 }
 
@@ -63,5 +76,5 @@ main {
     flex-wrap: wrap;
     column-gap: 4rem;
     row-gap: 5rem;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
