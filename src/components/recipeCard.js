@@ -3,7 +3,7 @@ import { stringEncode } from '../utils/encoderUtils.js';
 export const generateRecipeCardTemplate = (recipe) => {
     const { image, name, ingredients, time, description } = recipe;
 
-    const imagePath = '../assets/image/recipe/' + stringEncode(image);
+    const imagePath = 'assets/image/recipe/' + stringEncode(image);
 
     const ingredientList = document.createElement('ul');
     ingredientList.setAttribute('class', 'recipe-card__ingredients');
