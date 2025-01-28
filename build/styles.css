@@ -614,7 +614,7 @@ a {
 header {
   display: flex;
   flex-direction: column;
-  background: center url("../../assets/image/hero-section.jpg");
+  background: center url("../assets/image/hero-section.jpg");
 }
 header nav {
   padding: 3rem;
